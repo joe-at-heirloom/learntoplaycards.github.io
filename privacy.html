@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — Learn to Play Cards</title>
+<meta name="description" content="Privacy Policy for the Learn to Play Cards iOS app.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Libre+Caslon+Text:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --felt: #1B5E3B;
+  --felt-light: #237A4B;
+  --bg: #FAFAFA;
+  --bg-alt: #FFFFFF;
+  --text-primary: #141414;
+  --text-secondary: #5C5C5C;
+  --text-tertiary: #9A9A9A;
+  --border: #E5E5E5;
+  --border-light: #F0F0F0;
+  --radius-sm: 12px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--text-primary);
+  background: var(--bg);
+  line-height: 1.6;
+}
+
+h1, h2 {
+  font-family: 'Libre Caslon Text', Georgia, serif;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 16px clamp(20px, 5vw, 80px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(250,250,250,0.92);
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+.nav-logo-icon {
+  width: 36px;
+  height: 36px;
+  background: var(--felt);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.nav-logo-text {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: -0.03em;
+}
+
+.nav-back {
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-back:hover { color: var(--text-primary); }
+
+/* ── LEGAL CONTENT ── */
+.legal-content {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 120px clamp(20px, 5vw, 40px) 80px;
+}
+
+.legal-content h1 {
+  font-size: clamp(28px, 4vw, 38px);
+  margin-bottom: 8px;
+}
+
+.legal-date {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin-bottom: 40px;
+}
+
+.legal-content h2 {
+  font-size: 22px;
+  margin-top: 48px;
+  margin-bottom: 16px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border-light);
+}
+
+.legal-content h2:first-of-type {
+  border-top: none;
+  padding-top: 0;
+  margin-top: 32px;
+}
+
+.legal-content p {
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.75;
+  margin-bottom: 16px;
+}
+
+.legal-content ul {
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.75;
+  margin-bottom: 16px;
+  padding-left: 24px;
+}
+
+.legal-content li {
+  margin-bottom: 6px;
+}
+
+.legal-content a {
+  color: var(--felt);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.legal-content a:hover {
+  text-decoration: underline;
+}
+
+/* ── FOOTER ── */
+footer {
+  padding: 40px clamp(20px, 5vw, 80px);
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+footer p {
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+footer a {
+  color: var(--text-tertiary);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.2s;
+}
+
+footer a:hover { color: var(--text-primary); }
+
+.footer-links { display: flex; gap: 24px; }
+
+@media (max-width: 600px) {
+  footer { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon">♠</div>
+    <span class="nav-logo-text">Learn to Play Cards</span>
+  </a>
+  <a href="index.html" class="nav-back">← Back to Home</a>
+</nav>
+
+<main class="legal-content">
+  <h1>Privacy Policy</h1>
+  <p class="legal-date">Effective February 26, 2026</p>
+
+  <h2>Introduction</h2>
+  <p>Learn to Play Cards ("we," "our," or "the app") is an iOS application that teaches card games through lessons, quizzes, and interactive content. We respect your privacy and are committed to being transparent about how the app works.</p>
+  <p>This policy explains what information is collected, how it is used, and what choices you have.</p>
+
+  <h2>Information We Collect</h2>
+  <p><strong>Local data stored on your device:</strong></p>
+  <ul>
+    <li>Lesson progress and completion status</li>
+    <li>Quiz scores and results</li>
+    <li>CardIQ score and rank</li>
+    <li>App settings and preferences</li>
+    <li>In-app purchase status (ad removal)</li>
+  </ul>
+  <p>This data is stored locally using Apple's UserDefaults and is never transmitted to any server. We do not operate any servers or databases. We do not create user accounts or collect personal information such as names, emails, or locations.</p>
+
+  <h2>Advertising &amp; Tracking</h2>
+  <p>The free version of the app displays ads provided by <strong>Google AdMob</strong>. To serve relevant ads, AdMob may collect a device advertising identifier (IDFA) if you grant permission.</p>
+  <p>When you first open a game, the app will ask for your permission through Apple's App Tracking Transparency (ATT) prompt. You can choose to:</p>
+  <ul>
+    <li><strong>Allow tracking</strong> — AdMob may use your device identifier to show personalized ads.</li>
+    <li><strong>Ask App Not to Track</strong> — AdMob will show non-personalized ads. The app works exactly the same either way.</li>
+  </ul>
+  <p>You can change this choice at any time in your device's Settings under Privacy &amp; Security → Tracking.</p>
+  <p>If you purchase the "Remove Ads" upgrade ($4.99), all advertising is permanently disabled and no ad-related tracking occurs.</p>
+
+  <h2>Third-Party Services</h2>
+  <p>The app uses the following third-party services:</p>
+  <ul>
+    <li><strong>Google AdMob</strong> — Ad serving and attribution. Subject to <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</li>
+    <li><strong>Apple Game Center</strong> — Leaderboards and achievements. Managed entirely by Apple under their <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Privacy Policy</a>.</li>
+    <li><strong>Apple StoreKit</strong> — In-app purchase processing. Handled by Apple; we never see your payment information.</li>
+  </ul>
+
+  <h2>Data Storage &amp; Security</h2>
+  <p>All app data (progress, scores, settings) is stored locally on your device. We do not collect, transmit, or store any data on external servers. Your data stays on your device and is protected by iOS's built-in security.</p>
+  <p>Deleting the app removes all locally stored data.</p>
+
+  <h2>Children's Privacy</h2>
+  <p>Learn to Play Cards is rated 4+ and does not knowingly collect personal information from children under 13. The app does not require account creation, does not collect names or emails, and does not include social features. Ad content is filtered for appropriateness through Google AdMob's child-safe settings.</p>
+
+  <h2>Your Choices</h2>
+  <ul>
+    <li><strong>Opt out of ad tracking:</strong> Decline the ATT prompt or change it in Settings → Privacy &amp; Security → Tracking.</li>
+    <li><strong>Remove all ads:</strong> Purchase "Remove Ads" ($4.99) in the app's Settings tab.</li>
+    <li><strong>Delete all data:</strong> Use "Reset All Progress" in the app's Settings tab, or delete the app entirely.</li>
+    <li><strong>Limit ad tracking:</strong> Enable "Limit Ad Tracking" in your device's Privacy settings.</li>
+  </ul>
+
+  <h2>Changes to This Policy</h2>
+  <p>We may update this Privacy Policy from time to time. Changes will be reflected on this page with an updated effective date. Continued use of the app after changes constitutes acceptance of the revised policy.</p>
+
+  <h2>Contact Us</h2>
+  <p>If you have questions about this Privacy Policy, contact us at:</p>
+  <p><a href="mailto:learntoplaycards@support.com">learntoplaycards@support.com</a></p>
+</main>
+
+<footer>
+  <div>
+    <a href="index.html" class="nav-logo" style="margin-bottom:4px;">
+      <div class="nav-logo-icon" style="width:28px;height:28px;font-size:14px;border-radius:8px;">♠</div>
+      <span class="nav-logo-text" style="font-size:14px;">Learn to Play Cards</span>
+    </a>
+    <p style="margin-top:6px;">© 2026 Learn to Play Cards. All rights reserved.</p>
+  </div>
+  <div class="footer-links">
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="mailto:learntoplaycards@support.com">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>

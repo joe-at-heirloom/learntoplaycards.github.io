@@ -1,0 +1,1795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learn to Play Cards — Master Any Card Game</title>
+<meta name="description" content="The only app that teaches you card games from scratch. Lessons, quizzes, strategy, and your own CardIQ score. Free on iOS.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Felt green palette */
+  --felt: #1B5E3B;
+  --felt-light: #237A4B;
+  --felt-dark: #0F3D25;
+  --felt-muted: #2D8C5A;
+  --felt-subtle: #E9F5EE;
+  --felt-whisper: #F4FAF6;
+  
+  --bg: #FAFAFA;
+  --bg-alt: #FFFFFF;
+  --text-primary: #141414;
+  --text-secondary: #5C5C5C;
+  --text-tertiary: #9A9A9A;
+  --accent-soft: #F0F0F0;
+  --border: #E5E5E5;
+  --border-light: #F0F0F0;
+  --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 6px 24px rgba(0,0,0,0.06);
+  --card-shadow-hover: 0 2px 8px rgba(0,0,0,0.06), 0 16px 48px rgba(0,0,0,0.1);
+  --radius: 20px;
+  --radius-sm: 12px;
+  --section-padding: clamp(80px, 10vw, 140px) clamp(20px, 5vw, 80px);
+  
+  --poker-color: #1B5E3B;
+  --blackjack-color: #B71C1C;
+  --hearts-color: #D81B60;
+  --spades-color: #1A237E;
+  --euchre-color: #E65100;
+  --solitaire-color: #00695C;
+  --gofish-color: #0277BD;
+  --war-color: #4E342E;
+  --oldmaid-color: #7B1FA2;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--text-primary);
+  background: var(--bg);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  font-family: 'Libre Caslon Text', Georgia, serif;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+/* ── FELT TEXTURE ── */
+.felt-surface {
+  position: relative;
+  background: var(--felt);
+}
+
+.felt-surface::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none;
+  opacity: 0.6;
+  mix-blend-mode: overlay;
+}
+
+.felt-surface::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 30%, rgba(255,255,255,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes subtleGlow {
+  0%, 100% { box-shadow: 0 0 30px rgba(27,94,59,0.15); }
+  50% { box-shadow: 0 0 50px rgba(27,94,59,0.25); }
+}
+
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 16px clamp(20px, 5vw, 80px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(250,250,250,0.82);
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  transition: all 0.3s ease;
+}
+
+nav.scrolled {
+  padding: 12px clamp(20px, 5vw, 80px);
+  background: rgba(250,250,250,0.94);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+.nav-logo-icon {
+  width: 36px;
+  height: 36px;
+  background: var(--felt);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Micro felt texture on logo icon */
+.nav-logo-icon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 128 128' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
+  background-size: 64px;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.nav-logo-text {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: -0.03em;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--text-primary); }
+
+.nav-cta {
+  background: var(--felt) !important;
+  color: white !important;
+  padding: 10px 22px;
+  border-radius: 100px;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  transition: all 0.2s !important;
+}
+
+.nav-cta:hover { background: var(--felt-light) !important; }
+
+/* ── HERO ── */
+.hero {
+  padding: clamp(140px, 15vw, 200px) clamp(20px, 5vw, 80px) clamp(60px, 8vw, 100px);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle felt-green radial behind hero */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 900px;
+  background: radial-gradient(circle, rgba(27,94,59,0.04) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px 6px 12px;
+  background: var(--felt-subtle);
+  border: 1px solid rgba(27,94,59,0.12);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--felt);
+  margin-bottom: 32px;
+  animation: fadeIn 0.6s ease both;
+}
+
+.hero-badge::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  background: var(--felt-muted);
+  border-radius: 50%;
+}
+
+.hero h1 {
+  font-size: clamp(46px, 7.5vw, 92px);
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  max-width: 780px;
+  margin: 0 auto 24px;
+  animation: fadeUp 0.8s ease both;
+  animation-delay: 0.1s;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--felt);
+}
+
+.hero-subtitle {
+  font-size: clamp(17px, 2vw, 20px);
+  color: var(--text-secondary);
+  max-width: 520px;
+  margin: 0 auto 48px;
+  line-height: 1.65;
+  font-weight: 400;
+  animation: fadeUp 0.8s ease both;
+  animation-delay: 0.25s;
+}
+
+.hero-cta-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 72px;
+  animation: fadeUp 0.8s ease both;
+  animation-delay: 0.4s;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--felt);
+  color: white;
+  padding: 16px 32px;
+  border-radius: 100px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+  transition: all 0.25s ease;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 128 128' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.1'/%3E%3C/svg%3E");
+  background-size: 64px;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.btn-primary:hover {
+  background: var(--felt-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 24px rgba(27,94,59,0.3);
+}
+
+.btn-primary svg { width: 20px; height: 20px; }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 32px;
+  border-radius: 100px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--text-primary);
+  border: 1.5px solid var(--border);
+  background: var(--bg-alt);
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  border-color: var(--text-tertiary);
+  background: var(--accent-soft);
+}
+
+/* ── HERO PHONES ── */
+.hero-phone-container {
+  position: relative;
+  max-width: 840px;
+  margin: 0 auto;
+  animation: fadeUp 1s ease both;
+  animation-delay: 0.55s;
+}
+
+.hero-phones {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 20px;
+}
+
+.phone-mockup {
+  width: clamp(200px, 28vw, 256px);
+  background: var(--bg-alt);
+  border-radius: 32px;
+  border: 1px solid var(--border);
+  box-shadow: var(--card-shadow), 0 24px 64px rgba(0,0,0,0.08);
+  overflow: hidden;
+  position: relative;
+}
+
+.phone-mockup.phone-center {
+  animation: float 6s ease-in-out infinite;
+  box-shadow: var(--card-shadow), 0 24px 64px rgba(0,0,0,0.1);
+}
+
+.phone-mockup.phone-left { transform: rotate(-5deg) translateY(24px); }
+.phone-mockup.phone-right { transform: rotate(5deg) translateY(24px); }
+
+.phone-notch {
+  width: 110px;
+  height: 26px;
+  background: #141414;
+  border-radius: 0 0 18px 18px;
+  margin: 0 auto;
+}
+
+.phone-screen { padding: 14px; }
+
+.phone-screen-header {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.phone-game-card {
+  background: var(--accent-soft);
+  border-radius: 14px;
+  padding: 13px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.phone-game-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  flex-shrink: 0;
+  color: white;
+  font-weight: 700;
+}
+
+.phone-game-info h4 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+.phone-game-info p {
+  font-size: 10px;
+  color: var(--text-tertiary);
+  margin-top: 1px;
+}
+
+.phone-progress-bar {
+  height: 4px;
+  background: var(--border-light);
+  border-radius: 2px;
+  margin-top: 5px;
+  overflow: hidden;
+}
+
+.phone-progress-fill {
+  height: 100%;
+  border-radius: 2px;
+}
+
+/* Lesson phone */
+.phone-lesson-block {
+  background: var(--accent-soft);
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 8px;
+}
+
+.phone-lesson-block h4 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.phone-lesson-block p {
+  font-size: 11px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.phone-tip-mini {
+  background: var(--felt-subtle);
+  border-left: 3px solid var(--felt);
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin-top: 6px;
+  font-size: 10px;
+  color: var(--felt-dark);
+  line-height: 1.4;
+}
+
+.phone-key-mini {
+  background: #FFF8E1;
+  border-left: 3px solid #FFAB00;
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin-top: 6px;
+  font-size: 10px;
+  color: #E65100;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+/* CardIQ phone */
+.phone-iq-score { text-align: center; padding: 16px 0 10px; }
+
+.phone-iq-ring {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 10px;
+  position: relative;
+}
+
+.phone-iq-ring svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.iq-ring-bg { fill: none; stroke: var(--border-light); stroke-width: 6; }
+
+.iq-ring-fill {
+  fill: none;
+  stroke: var(--felt);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 245;
+  stroke-dashoffset: 73;
+}
+
+.phone-iq-number {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.phone-iq-number strong {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--felt-dark);
+}
+
+.phone-iq-number span {
+  font-size: 8px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+}
+
+.phone-iq-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  background: var(--felt-subtle);
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--felt);
+}
+
+.phone-iq-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.phone-iq-stat {
+  background: var(--accent-soft);
+  border-radius: 10px;
+  padding: 10px 8px;
+  text-align: center;
+}
+
+.phone-iq-stat strong {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.phone-iq-stat span {
+  font-size: 8px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ── SOCIAL PROOF ── */
+.social-proof {
+  padding: 48px clamp(20px, 5vw, 80px);
+  border-top: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+  text-align: center;
+  background: var(--bg-alt);
+}
+
+.social-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(32px, 6vw, 80px);
+  flex-wrap: wrap;
+}
+
+.social-stat strong {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(26px, 3.2vw, 36px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.social-stat span {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  font-weight: 500;
+  margin-top: 2px;
+  display: block;
+}
+
+/* ── GAMES ── */
+.games-section {
+  padding: var(--section-padding);
+}
+
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--felt);
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-size: clamp(34px, 5vw, 56px);
+  margin-bottom: 16px;
+}
+
+.section-desc {
+  font-size: clamp(16px, 1.8vw, 18px);
+  color: var(--text-secondary);
+  max-width: 540px;
+  line-height: 1.65;
+  margin-bottom: 56px;
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+  gap: 14px;
+}
+
+.game-tile {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 18px;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: default;
+  position: relative;
+}
+
+.game-tile:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--card-shadow-hover);
+  border-color: transparent;
+}
+
+.game-tile-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px;
+  font-size: 22px;
+  color: white;
+  font-weight: 700;
+}
+
+.game-tile h3 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 3px;
+  letter-spacing: -0.01em;
+}
+
+.game-tile p {
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.game-tile .soon-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  background: var(--accent-soft);
+  color: var(--text-tertiary);
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-weight: 500;
+  margin-top: 8px;
+  display: inline-block;
+  letter-spacing: 0.04em;
+}
+
+.games-note {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 14px;
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+
+/* ── FELT DIVIDER ── */
+.felt-divider {
+  height: 4px;
+  background: var(--felt);
+  position: relative;
+  overflow: hidden;
+}
+
+.felt-divider::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E");
+  background-size: 128px;
+  mix-blend-mode: overlay;
+}
+
+/* ── FEATURES (on felt) ── */
+.features-section {
+  padding: var(--section-padding);
+  background: var(--felt);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Felt texture */
+.features-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='felt'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23felt)' opacity='0.07'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  opacity: 0.8;
+}
+
+/* Soft light pool */
+.features-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 20%, rgba(255,255,255,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.features-section * { position: relative; z-index: 1; }
+
+.features-header { text-align: center; margin-bottom: 72px; }
+
+.features-header .section-label { color: rgba(255,255,255,0.45); }
+
+.features-header .section-title { color: white; }
+
+.features-header .section-desc {
+  color: rgba(255,255,255,0.6);
+  margin: 16px auto 0;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 36px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.feature-card { text-align: left; }
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+.feature-card h3 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: white;
+  letter-spacing: -0.01em;
+}
+
+.feature-card p {
+  font-size: 15px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.65;
+}
+
+/* ── LESSON PREVIEW ── */
+.lesson-section {
+  padding: var(--section-padding);
+}
+
+.lesson-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 6vw, 100px);
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.lesson-content h2 {
+  font-size: clamp(30px, 3.8vw, 48px);
+  margin-bottom: 20px;
+}
+
+.lesson-content h2 em {
+  font-style: italic;
+  color: var(--felt);
+}
+
+.lesson-content > p {
+  font-size: clamp(15px, 1.6vw, 17px);
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 36px;
+}
+
+.lesson-topics {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.lesson-topic {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.lesson-topic-icon {
+  width: 36px;
+  height: 36px;
+  background: var(--felt-subtle);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.lesson-topic h4 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 2px;
+}
+
+.lesson-topic p {
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+.lesson-visual { position: relative; }
+
+.lesson-preview-card {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  box-shadow: var(--card-shadow);
+}
+
+.lesson-preview-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--felt);
+  background: var(--felt-subtle);
+  padding: 4px 12px;
+  border-radius: 100px;
+  display: inline-block;
+  margin-bottom: 16px;
+  letter-spacing: 0.02em;
+}
+
+.lesson-preview-card h3 {
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+
+.lesson-preview-subtitle {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin-bottom: 20px;
+}
+
+.lesson-preview-text {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.lesson-preview-text strong { color: var(--text-primary); }
+
+.lesson-preview-text .term-link {
+  color: var(--felt);
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.lesson-tip {
+  background: var(--felt-subtle);
+  border-left: 3px solid var(--felt);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 14px;
+  color: var(--felt-dark);
+  line-height: 1.55;
+  margin-bottom: 12px;
+}
+
+.lesson-keypoint {
+  background: #FFF8E1;
+  border-left: 3px solid #FFAB00;
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 14px;
+  color: #BF360C;
+  line-height: 1.55;
+  font-weight: 500;
+}
+
+/* ── CARDIQ ── */
+.cardiq-section {
+  padding: var(--section-padding);
+  background: var(--text-primary);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.cardiq-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background: radial-gradient(circle at 70% 40%, rgba(27,94,59,0.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.cardiq-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 6vw, 100px);
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.cardiq-content .section-label { color: rgba(255,255,255,0.35); }
+
+.cardiq-content h2 { color: white; font-size: clamp(30px, 3.8vw, 48px); margin-bottom: 20px; }
+
+.cardiq-content h2 em {
+  font-style: italic;
+  color: var(--felt-muted);
+}
+
+.cardiq-content > p {
+  color: rgba(255,255,255,0.55);
+  font-size: clamp(15px, 1.6vw, 17px);
+  line-height: 1.7;
+  margin-bottom: 36px;
+}
+
+.cardiq-tiers {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cardiq-tier {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--radius-sm);
+  transition: background 0.2s;
+}
+
+.cardiq-tier:hover { background: rgba(255,255,255,0.09); }
+
+.cardiq-tier-icon { font-size: 22px; width: 36px; text-align: center; }
+
+.cardiq-tier h4 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+}
+
+.cardiq-tier p {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+}
+
+/* CardIQ visual */
+.cardiq-visual { display: flex; justify-content: center; }
+
+.cardiq-display {
+  width: 280px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 24px;
+  padding: 36px 28px;
+  text-align: center;
+  animation: subtleGlow 4s ease-in-out infinite;
+}
+
+.cardiq-display-ring {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 20px;
+  position: relative;
+}
+
+.cardiq-display-ring svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.ciq-ring-bg { fill: none; stroke: rgba(255,255,255,0.08); stroke-width: 8; }
+
+.ciq-ring-fill {
+  fill: none;
+  stroke: var(--felt-muted);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 377;
+  stroke-dashoffset: 113;
+}
+
+.cardiq-display-num {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardiq-display-num strong {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 44px;
+  font-weight: 500;
+  line-height: 1;
+  color: white;
+}
+
+.cardiq-display-num span {
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.cardiq-display-rank {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  background: rgba(45,140,90,0.2);
+  border: 1px solid rgba(45,140,90,0.3);
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #7DCEA0;
+  margin-bottom: 16px;
+}
+
+.cardiq-display-games {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cardiq-game-pip {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: white;
+}
+
+/* ── PRICING ── */
+.pricing-section {
+  padding: var(--section-padding);
+  text-align: center;
+}
+
+.pricing-header { margin-bottom: 56px; }
+
+.pricing-header .section-desc { margin: 16px auto 0; }
+
+.pricing-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 660px;
+  margin: 0 auto;
+}
+
+.pricing-card {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px 32px;
+  text-align: left;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.pricing-card:hover { box-shadow: var(--card-shadow-hover); }
+
+.pricing-card.featured {
+  border-color: var(--felt);
+  border-width: 2px;
+}
+
+.pricing-card.featured::before {
+  content: 'Best Value';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--felt);
+  color: white;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 4px 14px;
+  border-radius: 100px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.pricing-card h3 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.pricing-price {
+  font-family: 'Libre Caslon Text', serif;
+  font-size: 42px;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+
+.pricing-price span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text-tertiary);
+}
+
+.pricing-desc {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin-bottom: 28px;
+}
+
+.pricing-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pricing-features li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.pricing-features li::before {
+  content: '✓';
+  font-weight: 700;
+  color: var(--felt);
+  font-size: 14px;
+}
+
+/* ── FINAL CTA ── */
+.final-cta {
+  padding: clamp(80px, 10vw, 140px) clamp(20px, 5vw, 80px);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Soft green glow behind CTA */
+.final-cta::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(27,94,59,0.04) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.final-suits {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 40px;
+  font-size: 28px;
+  opacity: 0.12;
+}
+
+.final-cta h2 {
+  font-size: clamp(34px, 5vw, 60px);
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.final-cta p {
+  font-size: clamp(16px, 1.8vw, 19px);
+  color: var(--text-secondary);
+  max-width: 460px;
+  margin: 0 auto 40px;
+  line-height: 1.6;
+  position: relative;
+}
+
+/* ── FOOTER ── */
+footer {
+  padding: 40px clamp(20px, 5vw, 80px);
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+footer p {
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+footer a {
+  color: var(--text-tertiary);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.2s;
+}
+
+footer a:hover { color: var(--text-primary); }
+
+.footer-links { display: flex; gap: 24px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .features-grid { grid-template-columns: 1fr; gap: 28px; }
+  .lesson-layout, .cardiq-layout { grid-template-columns: 1fr; gap: 48px; }
+  .lesson-visual { order: -1; }
+  .cardiq-visual { order: -1; }
+  .pricing-cards { grid-template-columns: 1fr; max-width: 380px; }
+  .phone-mockup.phone-left, .phone-mockup.phone-right { display: none; }
+}
+
+@media (max-width: 600px) {
+  .nav-links { display: none; }
+  .games-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .hero-cta-group { flex-direction: column; }
+  .social-stats { gap: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon">♠</div>
+    <span class="nav-logo-text">Learn to Play Cards</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#games">Games</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#lessons">Lessons</a></li>
+    <li><a href="#cardiq">CardIQ</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#download" class="nav-cta">Download Free</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Available on iOS</div>
+  <h1>Finally learn how to <em>play cards.</em></h1>
+  <p class="hero-subtitle">Bite-sized lessons, quizzes, and strategy for 9 card games — from Go&nbsp;Fish to Texas Hold'em. Track your progress with your own CardIQ score.</p>
+
+  <div class="hero-cta-group">
+    <a href="#download" class="btn-primary">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83"/><path d="M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11"/></svg>
+      Download for iOS
+    </a>
+    <a href="#games" class="btn-secondary">See all games ↓</a>
+  </div>
+
+  <div class="hero-phone-container">
+    <div class="hero-phones">
+      <!-- Left phone: Game list -->
+      <div class="phone-mockup phone-left">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="phone-screen-header">Learn Cards</div>
+          <div class="phone-game-card">
+            <div class="phone-game-icon" style="background:var(--poker-color)">♠</div>
+            <div class="phone-game-info">
+              <h4>Texas Hold'em</h4>
+              <p>15 lessons · Advanced</p>
+              <div class="phone-progress-bar"><div class="phone-progress-fill" style="width:72%;background:var(--poker-color)"></div></div>
+            </div>
+          </div>
+          <div class="phone-game-card">
+            <div class="phone-game-icon" style="background:var(--blackjack-color)">21</div>
+            <div class="phone-game-info">
+              <h4>Blackjack</h4>
+              <p>15 lessons · Intermediate</p>
+              <div class="phone-progress-bar"><div class="phone-progress-fill" style="width:45%;background:var(--blackjack-color)"></div></div>
+            </div>
+          </div>
+          <div class="phone-game-card">
+            <div class="phone-game-icon" style="background:var(--gofish-color)">🐟</div>
+            <div class="phone-game-info">
+              <h4>Go Fish</h4>
+              <p>6 lessons · Beginner</p>
+              <div class="phone-progress-bar"><div class="phone-progress-fill" style="width:100%;background:var(--gofish-color)"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center phone: Lesson -->
+      <div class="phone-mockup phone-center">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="phone-screen-header">What is Poker?</div>
+          <div class="phone-lesson-block">
+            <p style="font-size:12px;color:var(--text-primary);line-height:1.55;">Poker is a card game where players bet on who has the best cards. But here's what makes it special: <strong>you don't need the best cards to win.</strong></p>
+            <div class="phone-tip-mini">💡 Take your time with each lesson. There's no rush!</div>
+          </div>
+          <div class="phone-lesson-block">
+            <h4>What Makes Poker Different?</h4>
+            <p>You play against other people, not the casino. Skill beats luck over time.</p>
+            <div class="phone-key-mini">🔑 Win by having the best hand OR by making everyone else fold.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right phone: CardIQ -->
+      <div class="phone-mockup phone-right">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="phone-screen-header">Your CardIQ</div>
+          <div class="phone-iq-score">
+            <div class="phone-iq-ring">
+              <svg viewBox="0 0 88 88">
+                <circle class="iq-ring-bg" cx="44" cy="44" r="37"/>
+                <circle class="iq-ring-fill" cx="44" cy="44" r="37"/>
+              </svg>
+              <div class="phone-iq-number">
+                <strong>724</strong>
+                <span>CardIQ</span>
+              </div>
+            </div>
+            <div class="phone-iq-badge">🏆 Expert</div>
+          </div>
+          <div class="phone-iq-stats">
+            <div class="phone-iq-stat"><strong>3</strong><span>Games</span></div>
+            <div class="phone-iq-stat"><strong>87%</strong><span>Avg Score</span></div>
+            <div class="phone-iq-stat"><strong>28</strong><span>Lessons</span></div>
+            <div class="phone-iq-stat"><strong>5</strong><span>Badges</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section class="social-proof animate-on-scroll">
+  <div class="social-stats">
+    <div class="social-stat"><strong>9</strong><span>Card Games</span></div>
+    <div class="social-stat"><strong>82</strong><span>Lessons</span></div>
+    <div class="social-stat"><strong>450+</strong><span>Quiz Questions</span></div>
+    <div class="social-stat"><strong>ELI5</strong><span>Teaching Style</span></div>
+  </div>
+</section>
+
+<!-- GAMES -->
+<section class="games-section" id="games">
+  <div class="animate-on-scroll">
+    <div class="section-label">Game Library</div>
+    <h2 class="section-title">Every game you need to know.</h2>
+    <p class="section-desc">Casino classics to family night favorites. Each game gets its own full course — lessons, rules, glossary, quizzes, and strategy tips. New games added regularly.</p>
+  </div>
+
+  <div class="games-grid animate-on-scroll">
+    <div class="game-tile">
+      <div class="game-tile-icon" style="background:var(--poker-color)">♠</div>
+      <h3>Texas Hold'em</h3>
+      <p>15 lessons · Advanced</p>
+    </div>
+    <div class="game-tile">
+      <div class="game-tile-icon" style="background:var(--blackjack-color)">21</div>
+      <h3>Blackjack</h3>
+      <p>15 lessons · Intermediate</p>
+    </div>
+    <div class="game-tile">
+      <div class="game-tile-icon" style="background:var(--solitaire-color)">♦</div>
+      <h3>Solitaire</h3>
+      <p>12 lessons · Beginner</p>
+    </div>
+    <div class="game-tile">
+      <div class="game-tile-icon" style="background:var(--hearts-color)">♥</div>
+      <h3>Hearts</h3>
+      <p>8 lessons · Beginner</p>
+    </div>
+    <div class="game-tile">
+      <div class="game-tile-icon" style="background:var(--spades-color)">♠</div>
+      <h3>Spades</h3>
+      <p>8 lessons · Beginner</p>
+    </div>
+    <div class="game-tile">
+      <div class="game-tile-icon" style="background:var(--euchre-color)">🂡</div>
+      <h3>Euchre</h3>
+      <p>7 lessons · Intermediate</p>
+    </div>
+    <div class="game-tile">
+      <div class="game-tile-icon" style="background:var(--gofish-color)">🐟</div>
+      <h3>Go Fish</h3>
+      <p>6 lessons · Beginner</p>
+    </div>
+    <div class="game-tile">
+      <div class="game-tile-icon" style="background:var(--oldmaid-color)">👵</div>
+      <h3>Old Maid</h3>
+      <p>6 lessons · Beginner</p>
+    </div>
+    <div class="game-tile">
+      <div class="game-tile-icon" style="background:var(--war-color)">⚔️</div>
+      <h3>War</h3>
+      <p>5 lessons · Beginner</p>
+    </div>
+    <div class="game-tile" style="opacity:0.55">
+      <div class="game-tile-icon" style="background:#9E9E9E">+</div>
+      <h3>More Coming</h3>
+      <p>Rummy, Cribbage…</p>
+      <span class="soon-tag">SOON</span>
+    </div>
+  </div>
+  <p class="games-note animate-on-scroll">More games added regularly. Request one — we're listening.</p>
+</section>
+
+<!-- FELT DIVIDER -->
+<div class="felt-divider"></div>
+
+<!-- FEATURES (on felt) -->
+<section class="features-section" id="features">
+  <div class="features-header animate-on-scroll">
+    <div class="section-label">What's Inside</div>
+    <h2 class="section-title">Not another rule book.</h2>
+    <p class="section-desc">A structured learning experience — interactive, visual, and designed so you actually remember what you learn.</p>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card animate-on-scroll">
+      <div class="feature-icon">📖</div>
+      <h3>ELI5 Lessons</h3>
+      <p>Every game starts from absolute zero. What's a deck? How many cards? All the way up to advanced strategy, position play, and counting techniques.</p>
+    </div>
+    <div class="feature-card animate-on-scroll">
+      <div class="feature-icon">✅</div>
+      <h3>Quizzes After Every Lesson</h3>
+      <p>Lock in what you learned with multiple-choice quizzes. Track your best scores, earn XP, and keep your streak going.</p>
+    </div>
+    <div class="feature-card animate-on-scroll">
+      <div class="feature-icon">🃏</div>
+      <h3>Visual Card Tables</h3>
+      <p>See hands, deals, and game scenarios laid out on interactive card table displays — built for every game from Blackjack to Euchre.</p>
+    </div>
+    <div class="feature-card animate-on-scroll">
+      <div class="feature-icon">📚</div>
+      <h3>Searchable Dictionary</h3>
+      <p>Tap any highlighted term in a lesson to see its definition instantly. Plus a full cross-game dictionary with 200+ terms.</p>
+    </div>
+    <div class="feature-card animate-on-scroll">
+      <div class="feature-icon">📺</div>
+      <h3>How-to-Play Videos</h3>
+      <p>Embedded video overviews for every game so you can see it in action before diving into the lessons.</p>
+    </div>
+    <div class="feature-card animate-on-scroll">
+      <div class="feature-icon">🏆</div>
+      <h3>Achievements & Game Center</h3>
+      <p>Earn 10 achievements, compete on Game Center leaderboards, and track your CardIQ rank against other players.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LESSON PREVIEW -->
+<section class="lesson-section" id="lessons">
+  <div class="lesson-layout">
+    <div class="lesson-content animate-on-scroll">
+      <div class="section-label">How Lessons Work</div>
+      <h2>Taught like you're <em>five.</em><br>Built for adults.</h2>
+      <p>Every lesson breaks complex games into bite-sized pieces with real examples, interactive card table visuals, and tappable glossary terms. No assumptions about what you already know.</p>
+
+      <ul class="lesson-topics">
+        <li class="lesson-topic">
+          <div class="lesson-topic-icon">🃏</div>
+          <div>
+            <h4>Start from the Deck</h4>
+            <p>Suits, ranks, face cards — explained fresh every time</p>
+          </div>
+        </li>
+        <li class="lesson-topic">
+          <div class="lesson-topic-icon">🎯</div>
+          <div>
+            <h4>Rules & Flow of Play</h4>
+            <p>Step-by-step walkthrough of every round and phase</p>
+          </div>
+        </li>
+        <li class="lesson-topic">
+          <div class="lesson-topic-icon">🧠</div>
+          <div>
+            <h4>Strategy & Thinking</h4>
+            <p>Position play, odds, reading opponents, bankroll management</p>
+          </div>
+        </li>
+        <li class="lesson-topic">
+          <div class="lesson-topic-icon">🃏</div>
+          <div>
+            <h4>Card Table Visuals</h4>
+            <p>See real hands and scenarios laid out on interactive tables</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="lesson-visual animate-on-scroll">
+      <div class="lesson-preview-card">
+        <div class="lesson-preview-badge">POKER · LESSON 1 OF 15</div>
+        <h3>What is Poker?</h3>
+        <p class="lesson-preview-subtitle">The game, the goal, and why people love it</p>
+        <p class="lesson-preview-text">Poker is a card game where players bet on who has the best cards. But here's what makes it special: <strong>you don't need the best cards to win.</strong> You can also win by making everyone else give up. That's called a <span class="term-link">bluff</span>.</p>
+        <div class="lesson-tip">💡 Take your time with each lesson. There's no rush!</div>
+        <div class="lesson-keypoint">🔑 Win by having the best hand OR by making everyone else fold.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARDIQ -->
+<section class="cardiq-section" id="cardiq">
+  <div class="cardiq-layout">
+    <div class="cardiq-content animate-on-scroll">
+      <div class="section-label">Your Score</div>
+      <h2>Meet your <em>CardIQ.</em></h2>
+      <p>One score that reflects everything you know about card games. Complete lessons, ace quizzes, earn XP, and climb seven ranks — all the way to Grandmaster.</p>
+
+      <div class="cardiq-tiers">
+        <div class="cardiq-tier">
+          <div class="cardiq-tier-icon">🌱</div>
+          <div>
+            <h4>Novice</h4>
+            <p>0 – 99</p>
+          </div>
+        </div>
+        <div class="cardiq-tier">
+          <div class="cardiq-tier-icon">🎓</div>
+          <div>
+            <h4>Beginner</h4>
+            <p>100 – 249</p>
+          </div>
+        </div>
+        <div class="cardiq-tier">
+          <div class="cardiq-tier-icon">⭐️</div>
+          <div>
+            <h4>Intermediate</h4>
+            <p>250 – 499</p>
+          </div>
+        </div>
+        <div class="cardiq-tier">
+          <div class="cardiq-tier-icon">💎</div>
+          <div>
+            <h4>Advanced</h4>
+            <p>500 – 999</p>
+          </div>
+        </div>
+        <div class="cardiq-tier">
+          <div class="cardiq-tier-icon">🏆</div>
+          <div>
+            <h4>Expert</h4>
+            <p>1,000 – 1,999</p>
+          </div>
+        </div>
+        <div class="cardiq-tier">
+          <div class="cardiq-tier-icon">👑</div>
+          <div>
+            <h4>Master</h4>
+            <p>2,000 – 3,499</p>
+          </div>
+        </div>
+        <div class="cardiq-tier">
+          <div class="cardiq-tier-icon">🎖</div>
+          <div>
+            <h4>Grandmaster</h4>
+            <p>3,500+</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cardiq-visual animate-on-scroll">
+      <div class="cardiq-display">
+        <div class="cardiq-display-ring">
+          <svg viewBox="0 0 128 128">
+            <circle class="ciq-ring-bg" cx="64" cy="64" r="56"/>
+            <circle class="ciq-ring-fill" cx="64" cy="64" r="56"/>
+          </svg>
+          <div class="cardiq-display-num">
+            <strong>724</strong>
+            <span>CardIQ</span>
+          </div>
+        </div>
+        <div class="cardiq-display-rank">🏆 Expert</div>
+        <div class="cardiq-display-games">
+          <div class="cardiq-game-pip" style="background:var(--poker-color)">♠</div>
+          <div class="cardiq-game-pip" style="background:var(--blackjack-color)">21</div>
+          <div class="cardiq-game-pip" style="background:var(--gofish-color)">🐟</div>
+          <div class="cardiq-game-pip" style="background:var(--hearts-color)">♥</div>
+          <div class="cardiq-game-pip" style="background:var(--euchre-color)">🂡</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="pricing-header animate-on-scroll">
+    <div class="section-label">Pricing</div>
+    <h2 class="section-title">Free. Seriously.</h2>
+    <p class="section-desc">Every lesson, quiz, and feature — completely free. Remove ads for the price of a coffee.</p>
+  </div>
+
+  <div class="pricing-cards animate-on-scroll">
+    <div class="pricing-card">
+      <h3>Free</h3>
+      <div class="pricing-price">$0</div>
+      <p class="pricing-desc">Everything, with ads</p>
+      <ul class="pricing-features">
+        <li>All 9 card games</li>
+        <li>82 lessons & quizzes</li>
+        <li>Full rules & dictionary</li>
+        <li>CardIQ score & 7 ranks</li>
+        <li>Game Center & achievements</li>
+      </ul>
+    </div>
+    <div class="pricing-card featured">
+      <h3>Ad-Free</h3>
+      <div class="pricing-price">$4.99 <span>one-time</span></div>
+      <p class="pricing-desc">Clean, distraction-free learning</p>
+      <ul class="pricing-features">
+        <li>Everything in Free</li>
+        <li>No ads, ever</li>
+        <li>Support indie development</li>
+        <li>All future games included</li>
+        <li>No subscriptions</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta" id="download">
+  <div class="animate-on-scroll">
+    <div class="final-suits"><span>♠</span><span>♥</span><span>♦</span><span>♣</span></div>
+    <h2>Your next game night<br>starts here.</h2>
+    <p>Stop Googling the rules mid-hand. Learn once, play with confidence forever.</p>
+    <a href="#" class="btn-primary" style="font-size:18px;padding:18px 40px;">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83"/><path d="M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11"/></svg>
+      Download for iOS — Free
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <a href="#" class="nav-logo" style="margin-bottom:4px;">
+      <div class="nav-logo-icon" style="width:28px;height:28px;font-size:14px;border-radius:8px;">♠</div>
+      <span class="nav-logo-text" style="font-size:14px;">Learn to Play Cards</span>
+    </a>
+    <p style="margin-top:6px;">© 2026 Learn to Play Cards. All rights reserved.</p>
+  </div>
+  <div class="footer-links">
+    <a href="https://learntoplaycardsapp.com/privacy.html">Privacy</a>
+    <a href="https://learntoplaycardsapp.com/terms.html">Terms</a>
+    <a href="mailto:learntoplaycards@support.com">Contact</a>
+  </div>
+</footer>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+
+</body>
+</html>

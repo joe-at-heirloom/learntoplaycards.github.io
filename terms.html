@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service — Learn to Play Cards</title>
+<meta name="description" content="Terms of Service for the Learn to Play Cards iOS app.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Libre+Caslon+Text:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --felt: #1B5E3B;
+  --felt-light: #237A4B;
+  --bg: #FAFAFA;
+  --bg-alt: #FFFFFF;
+  --text-primary: #141414;
+  --text-secondary: #5C5C5C;
+  --text-tertiary: #9A9A9A;
+  --border: #E5E5E5;
+  --border-light: #F0F0F0;
+  --radius-sm: 12px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--text-primary);
+  background: var(--bg);
+  line-height: 1.6;
+}
+
+h1, h2 {
+  font-family: 'Libre Caslon Text', Georgia, serif;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 16px clamp(20px, 5vw, 80px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(250,250,250,0.92);
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+.nav-logo-icon {
+  width: 36px;
+  height: 36px;
+  background: var(--felt);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.nav-logo-text {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: -0.03em;
+}
+
+.nav-back {
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-back:hover { color: var(--text-primary); }
+
+/* ── LEGAL CONTENT ── */
+.legal-content {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 120px clamp(20px, 5vw, 40px) 80px;
+}
+
+.legal-content h1 {
+  font-size: clamp(28px, 4vw, 38px);
+  margin-bottom: 8px;
+}
+
+.legal-date {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin-bottom: 40px;
+}
+
+.legal-content h2 {
+  font-size: 22px;
+  margin-top: 48px;
+  margin-bottom: 16px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border-light);
+}
+
+.legal-content h2:first-of-type {
+  border-top: none;
+  padding-top: 0;
+  margin-top: 32px;
+}
+
+.legal-content p {
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.75;
+  margin-bottom: 16px;
+}
+
+.legal-content ul {
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.75;
+  margin-bottom: 16px;
+  padding-left: 24px;
+}
+
+.legal-content li {
+  margin-bottom: 6px;
+}
+
+.legal-content a {
+  color: var(--felt);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.legal-content a:hover {
+  text-decoration: underline;
+}
+
+/* ── FOOTER ── */
+footer {
+  padding: 40px clamp(20px, 5vw, 80px);
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+footer p {
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+footer a {
+  color: var(--text-tertiary);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.2s;
+}
+
+footer a:hover { color: var(--text-primary); }
+
+.footer-links { display: flex; gap: 24px; }
+
+@media (max-width: 600px) {
+  footer { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon">♠</div>
+    <span class="nav-logo-text">Learn to Play Cards</span>
+  </a>
+  <a href="index.html" class="nav-back">← Back to Home</a>
+</nav>
+
+<main class="legal-content">
+  <h1>Terms of Service</h1>
+  <p class="legal-date">Effective February 26, 2026</p>
+
+  <h2>Acceptance of Terms</h2>
+  <p>By downloading, installing, or using Learn to Play Cards ("the app"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the app.</p>
+
+  <h2>License</h2>
+  <p>We grant you a limited, non-exclusive, non-transferable, revocable license to use the app for personal, non-commercial purposes on any Apple device that you own or control, subject to Apple's App Store Terms of Service.</p>
+  <p>This license does not allow you to:</p>
+  <ul>
+    <li>Copy, modify, or distribute the app or its content</li>
+    <li>Reverse engineer, decompile, or disassemble the app</li>
+    <li>Use automated tools to access or scrape app content</li>
+    <li>Sublicense, rent, or lease the app to any third party</li>
+    <li>Use the app for any unlawful purpose</li>
+  </ul>
+
+  <h2>In-App Purchases</h2>
+  <p>The app offers a one-time in-app purchase ("Remove Ads") for $4.99 USD. This is a non-consumable purchase that permanently removes all advertising from the app.</p>
+  <ul>
+    <li>All purchases are processed by Apple through the App Store and are subject to Apple's terms and pricing.</li>
+    <li>You can restore your purchase on any device signed in with the same Apple ID.</li>
+    <li>Refund requests must be directed to Apple, as we do not process payments directly.</li>
+  </ul>
+
+  <h2>Educational Content</h2>
+  <p>The app provides educational content about card games, including rules, strategies, and terminology. This content is provided for informational and entertainment purposes only.</p>
+  <ul>
+    <li>We make reasonable efforts to ensure accuracy, but card game rules can vary by region, house rules, and tradition.</li>
+    <li>The app does not provide gambling advice and should not be used as a basis for wagering decisions.</li>
+    <li>CardIQ scores and ranks are internal metrics for tracking your learning progress and do not represent any official certification.</li>
+  </ul>
+
+  <h2>Intellectual Property</h2>
+  <p>All content in the app — including lessons, quizzes, illustrations, card designs, text, and the CardIQ scoring system — is owned by Learn to Play Cards or its licensors and is protected by copyright and intellectual property laws.</p>
+  <p>Traditional card game rules themselves are in the public domain, but our specific presentation, explanations, and educational materials are original works.</p>
+
+  <h2>Third-Party Services</h2>
+  <p>The app integrates with the following third-party services, each governed by their own terms:</p>
+  <ul>
+    <li><strong>Apple Game Center</strong> — For leaderboards and achievements. Subject to <a href="https://www.apple.com/legal/internet-services/itunes/" target="_blank" rel="noopener">Apple's Terms of Service</a>.</li>
+    <li><strong>Google AdMob</strong> — For serving advertisements in the free version. Subject to <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Google's Terms of Service</a>.</li>
+    <li><strong>Apple StoreKit</strong> — For processing in-app purchases. Subject to Apple's App Store terms.</li>
+  </ul>
+
+  <h2>Disclaimer of Warranties</h2>
+  <p>The app is provided "as is" and "as available" without warranties of any kind, either express or implied. We do not warrant that the app will be uninterrupted, error-free, or free of harmful components.</p>
+  <p>To the fullest extent permitted by applicable law, we disclaim all warranties, including implied warranties of merchantability, fitness for a particular purpose, and non-infringement.</p>
+
+  <h2>Limitation of Liability</h2>
+  <p>To the maximum extent permitted by applicable law, Learn to Play Cards and its developers shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of or inability to use the app.</p>
+  <p>Our total liability for any claim arising from these terms or the app shall not exceed the amount you paid for the app or in-app purchases in the 12 months preceding the claim.</p>
+
+  <h2>Changes to These Terms</h2>
+  <p>We reserve the right to update these Terms of Service at any time. Changes will be reflected on this page with an updated effective date. Your continued use of the app after changes are posted constitutes acceptance of the revised terms.</p>
+
+  <h2>Termination</h2>
+  <p>We may terminate or suspend your access to the app at any time, without prior notice, for conduct that we believe violates these terms or is harmful to other users or the app. Upon termination, your license to use the app is revoked.</p>
+
+  <h2>Contact Us</h2>
+  <p>If you have questions about these Terms of Service, contact us at:</p>
+  <p><a href="mailto:learntoplaycards@support.com">learntoplaycards@support.com</a></p>
+</main>
+
+<footer>
+  <div>
+    <a href="index.html" class="nav-logo" style="margin-bottom:4px;">
+      <div class="nav-logo-icon" style="width:28px;height:28px;font-size:14px;border-radius:8px;">♠</div>
+      <span class="nav-logo-text" style="font-size:14px;">Learn to Play Cards</span>
+    </a>
+    <p style="margin-top:6px;">© 2026 Learn to Play Cards. All rights reserved.</p>
+  </div>
+  <div class="footer-links">
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="mailto:learntoplaycards@support.com">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>
