@@ -6,7 +6,7 @@
 <title>Learn to Play Cards — Master Any Card Game</title>
 <meta name="description" content="The only app that teaches you card games from scratch. 21 games, 128 lessons, quizzes, strategy, and your own CardIQ score. Free on iOS.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
 :root {
   /* Felt green palette */
@@ -1341,6 +1341,33 @@ footer a:hover { color: var(--text-primary); }
   .hero-cta-group { flex-direction: column; }
   .social-stats { gap: 20px; }
 }
+
+.dev-bar {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 14px 24px;
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+}
+
+.dev-bar-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-right: 6px;
+}
+
+.dev-bar-name {
+    font-family: 'Instrument Serif', serif;
+    font-size: 14px;
+    color: var(--text-secondary);
+    transition: color 0.2s;
+}
+
+.dev-bar-name:hover {
+    color: var(--felt);
+}
 </style>
 </head>
 <body>
@@ -1872,6 +1899,11 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 </script>
+
+<div class="dev-bar">
+    <span class="dev-bar-label">Brought to you by</span>
+    <a href="https://joelint.com" class="dev-bar-name">Joe Lint</a>
+</div>
 
 </body>
 </html>

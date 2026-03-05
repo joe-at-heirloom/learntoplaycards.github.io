@@ -6,7 +6,7 @@
 <title>Terms of Service — Learn to Play Cards</title>
 <meta name="description" content="Terms of Service for the Learn to Play Cards iOS app.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Libre+Caslon+Text:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Instrument+Serif&family=Libre+Caslon+Text:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --felt: #1B5E3B;
@@ -188,6 +188,33 @@ footer a:hover { color: var(--text-primary); }
 @media (max-width: 600px) {
   footer { flex-direction: column; align-items: flex-start; }
 }
+
+.dev-bar {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 14px 24px;
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+}
+
+.dev-bar-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-right: 6px;
+}
+
+.dev-bar-name {
+    font-family: 'Instrument Serif', serif;
+    font-size: 14px;
+    color: var(--text-secondary);
+    transition: color 0.2s;
+}
+
+.dev-bar-name:hover {
+    color: var(--felt);
+}
 </style>
 </head>
 <body>
@@ -292,6 +319,11 @@ footer a:hover { color: var(--text-primary); }
       <button type="submit" style="width:100%;padding:14px;background:var(--felt);color:white;border:none;border-radius:100px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='var(--felt-light)'" onmouseout="this.style.background='var(--felt)'">Send Message</button>
     </form>
   </div>
+</div>
+
+<div class="dev-bar">
+    <span class="dev-bar-label">Brought to you by</span>
+    <a href="https://joelint.com" class="dev-bar-name">Joe Lint</a>
 </div>
 
 </body>
