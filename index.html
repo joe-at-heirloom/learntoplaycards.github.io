@@ -168,27 +168,8 @@ nav.scrolled {
 .nav-logo-icon {
   width: 36px;
   height: 36px;
-  background: var(--felt);
   border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 18px;
-  font-weight: 700;
-  position: relative;
-  overflow: hidden;
-}
-
-/* Micro felt texture on logo icon */
-.nav-logo-icon::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 128 128' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
-  background-size: 64px;
-  mix-blend-mode: overlay;
-  pointer-events: none;
+  object-fit: cover;
 }
 
 .nav-logo-text {
@@ -1375,7 +1356,7 @@ footer a:hover { color: var(--text-primary); }
 <!-- NAV -->
 <nav id="nav">
   <a href="#" class="nav-logo">
-    <div class="nav-logo-icon">♠</div>
+    <img src="AppIcon.png" alt="Learn to Play Cards" class="nav-logo-icon">
     <span class="nav-logo-text">Learn to Play Cards</span>
   </a>
   <ul class="nav-links">
@@ -1848,7 +1829,7 @@ footer a:hover { color: var(--text-primary); }
 <footer>
   <div>
     <a href="#" class="nav-logo" style="margin-bottom:4px;">
-      <div class="nav-logo-icon" style="width:28px;height:28px;font-size:14px;border-radius:8px;">♠</div>
+      <img src="AppIcon.png" alt="Learn to Play Cards" class="nav-logo-icon" style="width:28px;height:28px;border-radius:8px;">
       <span class="nav-logo-text" style="font-size:14px;">Learn to Play Cards</span>
     </a>
     <p style="margin-top:6px;">© 2026 Learn to Play Cards. All rights reserved.</p>
