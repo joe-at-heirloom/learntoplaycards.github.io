@@ -179,6 +179,11 @@ footer a:hover { color: var(--text-primary); }
 
 .footer-links { display: flex; gap: 24px; }
 
+.footer-company { display: inline-block; margin-top: 12px; line-height: 0; opacity: 0.85; transition: opacity 0.2s; }
+.footer-company:hover { opacity: 1; }
+.footer-company img { display: block; width: 150px; max-width: 100%; height: auto; }
+@media (max-width: 600px) { .footer-company img { width: 140px; } }
+
 @media (max-width: 600px) {
   footer { flex-direction: column; align-items: flex-start; }
 }
@@ -294,11 +299,13 @@ footer a:hover { color: var(--text-primary); }
       <span class="nav-logo-text" style="font-size:14px;">Learn to Play Cards</span>
     </a>
     <p style="margin-top:6px;">© <!--pc:year-->2026<!--/pc:year--> <!--pc:name-->The Peninsular Company, LLC<!--/pc:name-->. All rights reserved.</p>
+    <a href="https://thepeninsularcompany.com" class="footer-company" aria-label="The Peninsular Company"><img src="images/peninsular-logo.svg" alt="The Peninsular Company" width="150" height="34"></a>
   </div>
   <div class="footer-links">
     <a href="privacy.html">Privacy</a>
     <a href="terms.html">Terms</a>
-    <a href="#" onclick="document.getElementById('contact-modal').style.display='flex';return false;">Contact</a>
+    <a href="mailto:support@learntoplaycardsapp.com" onclick="document.getElementById('contact-modal').style.display='flex';return false;">Contact</a>
+    <a href="https://apps.apple.com/us/app/learn-to-play-cards/id6759671819">App Store</a>
   </div>
 </footer>
 
